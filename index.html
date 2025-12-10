@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+	<!-- 画面のサイズを固定化。 -->  
+	<meta name="viewport" content="width=device-width" />  
+	<!-- ホーム画面に登録して、ホーム画面から読み込まれたとき、ツールバーを非表示にする。 -->  
+	<meta name="apple-mobile-web-app-capable" content="yes" />  
+	<title>HTML5 - CanvasTest</title>
+</head>
+<body>
+
+<article>
+<canvas id="obj01" width="640" height="480"></canvas>
+
+<script type="text/javascript">
+var x;
+var y;
+var z;
+var xg;
+var yg;
+var zg;
+var a;
+var b;
+var g;
+var txt;
+
+onload = function() {
+	anim_timer	= 100;
+	tID	= 0;
+	obj01(); 		//Mousy
+	objAnim();		//Animate
+
+	window.addEventListener("devicemotion", function(evt){
+		x = evt.acceleration.x;  // X方向の加速度
+		y = evt.acceleration.y;  // Y方向の加速度
+		z = evt.acceleration.z;  // Z方向の加速度
+		xg = evt.accelerationIncludingGravity.x;  // X方向の傾き
+		yg = evt.accelerationIncludingGravity.y;  // Y方向の傾き
+		zg = evt.accelerationIncludingGravity.z;  // Z方向の傾き
+		a = evt.rotationRate.alpha;  // Z方向の回転値
+		b = evt.rotationRate.beta; // X方向の回転値
+		g = evt.rotationRate.gamma;  // Y方向の回転値
+		txt = "x:"+x+"<br>y:"+y+"<br>z:"+z+"<br>";
+		txt += "傾きx:"+xg+"<br>傾きy:"+yg+"<br>傾きz:"+zg+"<br>";
+		txt += "alpha(Z):"+a+"<br>beta(X):"+b+"<br>gamma(Y):"+g;
+		document.getElementById("sensor").innerHTML = txt;
+	}, true);
+};
+
+//Mousy
+function obj01() {
+	var canvas = document.getElementById('obj01');
+
+	if ( ! canvas || ! canvas.getContext ) {return false;}
+	var ctx = canvas.getContext('2d');
+	ctx.save();
+
+	// Face
+	ctx.beginPath();
+	ctx.shadowOffsetX = 30;
+	ctx.shadowOffsetY = 35;
+	ctx.shadowColor = 'rgb(90, 90, 90)';
+	ctx.shadowBlur = 50;
+	var grad  = ctx.createRadialGradient(140,140,6, 165,175,80);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(240, 240, 240)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(192, 192, 192)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+	ctx.arc(180, 190, 100, -.1, Math.PI+.1, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Ear 1
+	ctx.beginPath();
+	ctx.shadowOffsetX = 30;
+	ctx.shadowOffsetY = 35;
+	ctx.shadowColor = 'rgb(90, 90, 90)';
+	ctx.shadowBlur = 50;
+	var grad  = ctx.createRadialGradient(60,40,6, 75,55,50);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(240, 240, 240)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(0, 0, 0)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+	ctx.arc(90, 70, 60, 0, Math.PI*2, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Ear 2
+	ctx.beginPath();
+	ctx.shadowOffsetX = 30;
+	ctx.shadowOffsetY = 35;
+	ctx.shadowColor = 'rgb(90, 90, 90)';
+	ctx.shadowBlur = 50;
+	var grad  = ctx.createRadialGradient(240,40,6, 255,55,50);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(240, 240, 240)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(0, 0, 0)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+	ctx.arc(270, 70, 60, 0, Math.PI*2, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Head
+	ctx.beginPath();
+	ctx.shadowOffsetX = 30;
+	ctx.shadowOffsetY = 35;
+	ctx.shadowColor = 'rgb(90, 90, 90)';
+	ctx.shadowBlur = 50;
+	var grad  = ctx.createRadialGradient(140,140,6, 165,175,80);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(240, 240, 240)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(0, 0, 0)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+	ctx.arc(180, 190, 100, Math.PI, Math.PI*2, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+}
+
+function objAnim()
+{
+	var canvas = document.getElementById('obj01');
+
+	if ( ! canvas || ! canvas.getContext ) {return false;}
+	var ctx = canvas.getContext('2d');
+	ctx.save();
+/*
+	// Clear (all)
+	ctx.beginPath();
+	ctx.fillStyle = "rgb(255, 255, 255)";
+	ctx.fillRect(0, 100, 400, 240);
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+*/
+	// Face
+	ctx.beginPath();
+	var grad  = ctx.createRadialGradient(140,140,6, 165,175,80);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(240, 240, 240)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(192, 192, 192)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+	ctx.arc(180, 190, 100, -.1, Math.PI+.1, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Eyes
+	ctx.beginPath();
+	ctx.arc(120+xg*3, 200, 6, 0, Math.PI*2, false);		// 円を描画
+	ctx.arc(240+xg*3, 200, 6, 0, Math.PI*2, false);		// 円を描画
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Nose
+	ctx.beginPath();
+	var grad  = ctx.createLinearGradient(150,225,150,240);		// gradient領域をセット
+	grad.addColorStop(0,'rgb(255, 255, 255)');			// gradient終点のオフセットと色をセット
+	grad.addColorStop(1,'rgb(0, 0, 0)');
+	ctx.fillStyle = grad;		// gradientをfillStyleプロパティにセット
+
+	ctx.moveTo(180+xg*18, 230);
+	ctx.lineTo(180+xg*7, 220);
+	ctx.lineTo(180+xg*7+8, 226);
+	ctx.lineTo(180+xg*7+8, 234);
+	ctx.lineTo(180+xg*7, 240);
+
+	ctx.moveTo(180+xg*18, 230);
+	ctx.lineTo(180+xg*7, 220);
+	ctx.lineTo(180+xg*7-8, 226);
+	ctx.lineTo(180+xg*7-8, 234);
+	ctx.lineTo(180+xg*7, 240);
+/*
+	ctx.moveTo(10, 230);
+	ctx.lineTo(150, 220);
+	ctx.lineTo(153, 226);
+	ctx.lineTo(153, 234);
+	ctx.lineTo(150, 240);
+*/
+	ctx.stroke();
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+/*
+	// Clear (mouth)
+	ctx.beginPath();
+	ctx.fillStyle = "rgb(192, 192, 192)";
+	ctx.fillRect(140, 240, 79, 43);
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+*/
+
+	// Mouth
+	ctx.beginPath();
+	ctx.fillStyle = 'rgb(167, 20, 20)';
+	ctx.moveTo(160+Math.random()*16+xg*3,
+				250+Math.random()*20);
+	ctx.quadraticCurveTo(180+Math.random()*10+xg*3,
+						240+Math.random()*50,
+						200+Math.random()*16+xg*3,
+						250+Math.random()*20);	//
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	// Wrinkle
+	ctx.beginPath();
+	ctx.moveTo(210+Math.random()*4+xg*3, 240+Math.random()*5);
+	ctx.lineTo(220+Math.random()*4+xg*3, 260+Math.random()*7);
+	ctx.lineWidth = 2;
+	ctx.stroke();
+	ctx.fill();
+
+	ctx.closePath();
+	ctx.restore();
+	ctx.save();
+
+	clearTimeout(tID);
+	tID = setTimeout("objAnim()", anim_timer);
+}
+
+</script>
+
+</article>
+
+    <h1>加速度／傾きセンサーの値を表示</h1>
+    <div id="sensor"></div>
+
+</body>
+</html>
